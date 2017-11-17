@@ -1,13 +1,13 @@
 <div class="aide-header-search" *ngIf="questionMode == false">
   <button md-button class="question-toggle" (click)="toggleQuestion($event)"><i class="material-icons">question_answer</i> Ask Questions</button> 
-    <input type="text" placeholder="Search Expression..." />
+    <input type="text" placeholder="Search Expression..." [(ngModel)]="text"(keyup)="onKeyDown($event)" />
     <button class="action">
       <i class="material-icons">search</i> 
     </button>
 </div>
 <div class="aide-header-question" *ngIf="questionMode == true">
     <button md-button class="search-toggle" (click)="toggleSearch($event)"><i class="material-icons">search</i> Search</button> 
-    <input type="text" placeholder="What is..." />
+    <input type="text" placeholder="What is..." [(ngModel)]="text" (keyup)="onKeyDown($event)" />
     <button class="action">
         <i class="material-icons">question_answer</i>
     </button>

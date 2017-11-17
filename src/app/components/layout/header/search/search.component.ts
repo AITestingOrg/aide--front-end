@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core'
+import { NlpAnalysisService } from '../../../../services/nlp-analysis.service'
 
 @Component({
   selector: 'app-search',
@@ -7,7 +8,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SearchComponent implements OnInit {
   private questionMode = false
-  constructor() { }
+  private text: string
+  constructor(protected nlpAnlysisService: NlpAnalysisService) { }
 
   ngOnInit() {
   }
@@ -18,6 +20,10 @@ export class SearchComponent implements OnInit {
 
   private toggleQuestion(event) {
     this.questionMode = true
+  }
+
+  private onKeyDown(event) {
+    this.nlpAnlysisService.runAnalysis(this.text)
   }
 
 }

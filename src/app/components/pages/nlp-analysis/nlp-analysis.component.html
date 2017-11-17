@@ -1,0 +1,14 @@
+<div *ngIf="noAction" class="card"><h4>Try typing something in the search box to begin debugging the NLP functions.</h4></div>
+
+<div *ngIf="!noAction" class="card">
+  <h2>Analysis Results</h2>
+  <h4>Dependency Trace</h4>
+  <div [innerHtml]="results.dep_graph | sanitizeHtml"></div>
+  <div *ngFor="let dep of results.dependencies">{{dep}}</div>
+  <h4>Entity Analysis</h4>
+  <div [innerHtml]="results.ent_graph | sanitizeHtml"></div>
+  <h4>Subject, Verb, Objects</h4>
+  <div>{{results.svos}}</div>
+  <h4>Lexicon</h4>
+  <div *ngFor="let dep of results.lexicon">{{dep}}</div>
+</div>
