@@ -1,0 +1,40 @@
+.cdk-container {
+    display: flex;
+    flex-direction: column;
+    min-width: 300px;
+  }
+  
+  /*
+   * Styles to make the demo's cdk-table match the material design spec
+   * https://material.io/guidelines/components/data-tables.html
+   */
+  .cdk-table {
+    flex: 1 1 auto;
+    overflow: auto;
+    max-height: 500px;
+    box-shadow:0px 10px 10px rgba(0,0,0,0.15)
+  }
+  
+  .cdk-header-row, .cdk-row {
+    display: flex;
+    border-bottom: 1px solid #ccc;
+    align-items: center;
+    height: 32px;
+    padding: 0 8px;
+  }
+  
+  .cdk-cell, .cdk-header-cell {
+    flex: 1;
+  }
+  
+  .cdk-header-cell {
+    font-weight: bold;
+    padding:5px 10px;
+    color: rgba(0, 0, 0, 0.54);
+  }
+  
+  .cdk-cell {
+    color: rgba(0, 0, 0, 0.87);
+    padding:5px 10px;
+    overflow:auto;
+  }

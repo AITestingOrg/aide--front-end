@@ -4,4 +4,7 @@ export class NlpAnalysisResult {
     dep_graph: string
     ent_graph: string
     svos: string
+    is_question: boolean
+    answer: any
+    ideas: any
 }

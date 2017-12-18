@@ -2,13 +2,27 @@
 
 <div *ngIf="!noAction" class="card">
   <h2>Analysis Results</h2>
+  <h4>Type: {{getType()}}</h4>
+  <h4>Answer: {{results.answer}}</h4>
   <h4>Dependency Trace</h4>
   <div [innerHtml]="results.dep_graph | sanitizeHtml"></div>
   <div *ngFor="let dep of results.dependencies">{{dep}}</div>
   <h4>Entity Analysis</h4>
   <div [innerHtml]="results.ent_graph | sanitizeHtml"></div>
   <h4>Subject, Verb, Objects</h4>
-  <div>{{results.svos}}</div>
+  <div *ngFor="let dep of results.svos">
+    <div *ngFor="let d of dep">{{d}}</div>
+  </div>
   <h4>Lexicon</h4>
   <div *ngFor="let dep of results.lexicon">{{dep}}</div>
+  <br />
+  <cdk-table #table [dataSource]="dataSource">
+    <ng-container *ngFor="let col of displayedColumns" [cdkColumnDef]="col">
+      <cdk-header-cell *cdkHeaderCellDef> {{col}} </cdk-header-cell>
+      <cdk-cell *cdkCellDef="let row"> {{row[col]}} </cdk-cell>
+    </ng-container>
+
+    <cdk-header-row *cdkHeaderRowDef="displayedColumns"></cdk-header-row>
+    <cdk-row *cdkRowDef="let row; columns: displayedColumns;"></cdk-row>
+  </cdk-table>
 </div>

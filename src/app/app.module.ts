@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule } from '@angular/core'
+import { CommonModule } from '@angular/common'
 import { RouterModule, Routes } from '@angular/router';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {
@@ -8,10 +9,12 @@ import {
   MdInputModule,
   MdTableModule,
   MdSelectModule,
-  MdAutocompleteModule
+  MdAutocompleteModule,
+  MdTooltipModule,
+  MdSortModule
 } from '@angular/material';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {CdkTableModule} from '@angular/cdk';
+import {CdkTableModule, DataSource} from '@angular/cdk';
 import 'hammerjs';
 
 import { AppComponent } from './app.component';
@@ -48,16 +51,19 @@ const appRoutes: Routes = [
     MdCheckboxModule,
     MdInputModule,
     MdTableModule,
+    MdTooltipModule,
     CdkTableModule,
     MdSelectModule,
     FormsModule,
     ReactiveFormsModule,
     MdAutocompleteModule,
+    MdSortModule,
     RouterModule.forRoot(
       appRoutes,
       { enableTracing: true } // <-- debugging purposes only
     ),
-    HttpModule
+    HttpModule,
+    CommonModule
   ],
   providers: [NlpAnalysisService, SanitizeHtmlPipe],
   bootstrap: [AppComponent]

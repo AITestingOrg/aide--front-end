@@ -13,14 +13,29 @@ export class NlpAnalysisService {
     this.results = new Subject()
   }
   runAnalysis(text: string) {
-    this.http.get(`http://localhost:5000/api/query/${text}`).subscribe(response => {
+    this.http.get(`http://localhost:5000/api/query/--debug/${text}`).subscribe(response => {
+      console.log(response.json())
       const result = new NlpAnalysisResult
       const json = response.json()
-      result.dep_graph = json.svgs[0]
-      result.ent_graph = json.svgs[1]
-      result.dependencies = json.dependencies
-      result.lexicon = json.lexicon
-      result.svos = json.svos
+      if (json.hasOwnProperty('svgs')) {
+        result.dep_graph = json.svgs[0]
+        result.ent_graph = json.svgs[1]
+      }
+      if (json.hasOwnProperty('dependencies')) {
+        result.dependencies = json.dependencies
+      }
+      if (json.hasOwnProperty('lexicon')) {
+        result.lexicon = json.lexicon
+      }
+      if (json.hasOwnProperty('svos')) {
+        result.svos = json.svos
+      }
+      if (json.hasOwnProperty('is_question')) {
+        result.is_question = json.is_question
+      }
+      if (json.ideas) {
+        result.answer = json.ideas
+      }
       this.results.next(result)
     })
   }

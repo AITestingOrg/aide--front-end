@@ -46,4 +46,43 @@ body.aide {
         display: table;
         clear: both;
     }
+
+    /* mic stuff */
+    $t: 0.8s;
+    $d: $t / 5;
+    
+    $c1: #ccc;
+    $c2: #dadada;
+    $c3: #fff;
+    
+    svg {
+      height: 0px;
+    }
+    @keyframes loader {
+      50% {
+        transform: translateY(-8px);
+        background-color: $c3;
+      }
+    }
+    .loader {
+      filter: url('#goo');
+      width: 25px;
+      margin: 0 auto;
+      position: relative;
+      transform: translateY(-2px);
+      div {
+        float: left;
+        height: 4px;
+        width: 4px;
+        border-radius: 100%;
+        background-color: $c2;
+        animation: loader $t infinite; 
+      }
+    }
+        
+    @for $i from 1 through 5 {
+      .loader > div:nth-child(#{$i}) {
+        animation-delay: $i * $d;
+      }
+    }
 }
