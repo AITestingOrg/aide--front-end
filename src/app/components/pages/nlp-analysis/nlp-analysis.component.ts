@@ -12,36 +12,46 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject'
 })
 export class NlpAnalysisComponent implements OnInit {
   private noAction = true
+  private columns = {
+    relationships: ['Subject', 'Action', 'Things'],
+    lexicon: ['Word', 'Coarse-grained-part-of-speech', 'Fine-grained-part-of-speech', 'Part-of-speech-abbr', 'Base-form'],
+    svos: ['Thing1', 'Action', 'Thing2'],
+    dependencies: ['Word', 'Syntactic-dependency-relation', 'Governor', 'Dependents']
+  }
   private results: NlpAnalysisResult
-  private displayedColumns = []
-  private ideaRows = [[]]
-  private dataSource: DataSource<any>
-  private resultDataSource: NlpResult
+  private relationshipDataSource: DataSource<any>
+  private relationshipContainer: NlpResult
+  private lexiconDataSource: DataSource<any>
+  private lexiconContainer: NlpResult
+  private dependenciesDataSource: DataSource<any>
+  private dependenciesContainer: NlpResult
+  private svoDataSource: DataSource<any>
+  private svoContainer: NlpResult
   constructor(protected nlpAnlysisService: NlpAnalysisService) { }
 
   ngOnInit() {
-    this.resultDataSource = new NlpResult(this.ideaRows)
-    this.dataSource = new NlpDataSource(this.resultDataSource)
+    this.relationshipContainer = new NlpResult([[]])
+    this.relationshipDataSource = new NlpDataSource(this.relationshipContainer)
+    this.lexiconContainer = new NlpResult([[]])
+    this.lexiconDataSource = new NlpDataSource(this.lexiconContainer)
+    this.dependenciesContainer = new NlpResult([[]])
+    this.dependenciesDataSource = new NlpDataSource(this.dependenciesContainer)
+    this.svoContainer = new NlpResult([[]])
+    this.svoDataSource = new NlpDataSource(this.svoContainer)
     this.nlpAnlysisService.getAnalysisObservable().subscribe(result => {
-      this.displayedColumns.length = 0
-      console.log('Analysis Service')
-      this.ideaRows[0].length = 0
       this.results = result
-      for (const key in this.results.answer) {
-        if (this.results.answer.hasOwnProperty(key)) {
-          this.displayedColumns.push(key)
-          this.ideaRows[0][key] = this.results.answer[key].join(', ')
-        }
-      }
-      console.log(this.ideaRows)
-      this.resultDataSource.next(this.ideaRows)
+      console.log('Analysis Service')
+      this.relationshipContainer.next(result.ideas)
+      this.lexiconContainer.next(result.lexicon)
+      this.svoContainer.next(result.svos)
+      this.dependenciesContainer.next(result.dependencies)
       this.noAction = false
       console.log('Analysis Done.')
     })
   }
 
   getType() {
-    return this.results.is_question ? 'Question' : 'Statement'
+    return this.results.is_question ? 'Question' : this.results.text.split(' ').length > 1 ? 'Statement' : 'Query'
   }
 
 }
@@ -70,6 +80,7 @@ class NlpResult {
   }
 
   public next(data: any) {
+    console.log(data)
     this.dataChange.next(data)
   }
 }

@@ -32,7 +32,13 @@ export class SearchComponent implements OnInit {
   private onKeyDown(event) {
     if (event.key === 'Enter') {
       this.nlpAnlysisService.runAnalysis(this.text)
+    } else {
+      this.nlpAnlysisService.runAnalysis(this.text, true)
     }
+  }
+
+  private addSentence(event) {
+    this.nlpAnlysisService.addSentence(this.text)
   }
 
   private classes() {

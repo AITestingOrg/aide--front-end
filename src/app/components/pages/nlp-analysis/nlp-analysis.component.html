@@ -3,26 +3,51 @@
 <div *ngIf="!noAction" class="card">
   <h2>Analysis Results</h2>
   <h4>Type: {{getType()}}</h4>
+  <div *ngIf="getType() !== 'Query'" >
   <h4>Answer: {{results.answer}}</h4>
   <h4>Dependency Trace</h4>
   <div [innerHtml]="results.dep_graph | sanitizeHtml"></div>
-  <div *ngFor="let dep of results.dependencies">{{dep}}</div>
+  <cdk-table #table [dataSource]="dependenciesDataSource">
+    <ng-container *ngFor="let col of columns.dependencies; let i = index" [cdkColumnDef]="col">
+      <cdk-header-cell *cdkHeaderCellDef> {{col}} </cdk-header-cell>
+      <cdk-cell *cdkCellDef="let row"> {{row[i]}} </cdk-cell>
+    </ng-container>
+
+    <cdk-header-row *cdkHeaderRowDef="columns.dependencies"></cdk-header-row>
+    <cdk-row *cdkRowDef="let row; columns: columns.dependencies;"></cdk-row>
+  </cdk-table>
   <h4>Entity Analysis</h4>
   <div [innerHtml]="results.ent_graph | sanitizeHtml"></div>
   <h4>Subject, Verb, Objects</h4>
-  <div *ngFor="let dep of results.svos">
-    <div *ngFor="let d of dep">{{d}}</div>
-  </div>
-  <h4>Lexicon</h4>
-  <div *ngFor="let dep of results.lexicon">{{dep}}</div>
-  <br />
-  <cdk-table #table [dataSource]="dataSource">
-    <ng-container *ngFor="let col of displayedColumns" [cdkColumnDef]="col">
+  <cdk-table #table [dataSource]="svoDataSource">
+    <ng-container *ngFor="let col of columns.svos; let i = index" [cdkColumnDef]="col">
       <cdk-header-cell *cdkHeaderCellDef> {{col}} </cdk-header-cell>
-      <cdk-cell *cdkCellDef="let row"> {{row[col]}} </cdk-cell>
+      <cdk-cell *cdkCellDef="let row"> {{row[i]}} </cdk-cell>
     </ng-container>
 
-    <cdk-header-row *cdkHeaderRowDef="displayedColumns"></cdk-header-row>
-    <cdk-row *cdkRowDef="let row; columns: displayedColumns;"></cdk-row>
+    <cdk-header-row *cdkHeaderRowDef="columns.svos"></cdk-header-row>
+    <cdk-row *cdkRowDef="let row; columns: columns.svos;"></cdk-row>
+  </cdk-table>
+  <h4>Lexicon</h4>
+  <cdk-table #table [dataSource]="lexiconDataSource">
+    <ng-container *ngFor="let col of columns.lexicon; let i = index" [cdkColumnDef]="col">
+      <cdk-header-cell *cdkHeaderCellDef> {{col}} </cdk-header-cell>
+      <cdk-cell *cdkCellDef="let row"> {{row[i]}} </cdk-cell>
+    </ng-container>
+
+    <cdk-header-row *cdkHeaderRowDef="columns.lexicon"></cdk-header-row>
+    <cdk-row *cdkRowDef="let row; columns: columns.lexicon;"></cdk-row>
+  </cdk-table>
+  <br />
+  </div>
+  <h4>Relations</h4>
+  <cdk-table #table [dataSource]="relationshipDataSource">
+    <ng-container *ngFor="let col of columns.relationships; let i = index" [cdkColumnDef]="col">
+      <cdk-header-cell *cdkHeaderCellDef> {{col}} </cdk-header-cell>
+      <cdk-cell *cdkCellDef="let row"> {{row[i]}} </cdk-cell>
+    </ng-container>
+
+    <cdk-header-row *cdkHeaderRowDef="columns.relationships"></cdk-header-row>
+    <cdk-row *cdkRowDef="let row; columns: columns.relationships;"></cdk-row>
   </cdk-table>
 </div>

@@ -7,4 +7,5 @@ export class NlpAnalysisResult {
     is_question: boolean
     answer: any
     ideas: any
+    text: string
 }
