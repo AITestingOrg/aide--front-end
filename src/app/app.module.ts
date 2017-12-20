@@ -2,7 +2,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { RouterModule, Routes } from '@angular/router';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MicService } from './services/mic.service'
 import {
   MdButtonModule,
   MdCheckboxModule,
@@ -65,7 +66,7 @@ const appRoutes: Routes = [
     HttpModule,
     CommonModule
   ],
-  providers: [NlpAnalysisService, SanitizeHtmlPipe],
+  providers: [NlpAnalysisService, SanitizeHtmlPipe, MicService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
